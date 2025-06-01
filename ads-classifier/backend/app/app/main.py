@@ -3,14 +3,26 @@ from fastapi import (
 )
 from app.api.v1.api import api_router as api_router_v1
 from app.core.config import settings
+from app import s3_client
 from contextlib import asynccontextmanager
 from starlette.middleware.cors import CORSMiddleware
 
 
+class ExtendedFastAPI(FastAPI):
+    s3_client : s3_client.S3Client
+
 @asynccontextmanager
-async def lifespan(app: FastAPI):
+async def lifespan(app: ExtendedFastAPI):
     # Startup
     print("startup fastapi")
+
+    # init s3
+    app.s3_client = s3_client.S3Client(
+        settings.S3_ACCESS_KEY_ID,
+        settings.S3_SECRET_ACCESS_KEY,
+        settings.PUBLIC_URL,
+        )
+
     yield
     # shutdown
     print("shutdown fastapi")
@@ -18,7 +30,7 @@ async def lifespan(app: FastAPI):
 
 
 # Core Application Instance
-app = FastAPI(
+app = ExtendedFastAPI(
     title=settings.PROJECT_NAME,
     version=settings.API_VERSION,
     openapi_url=f"{settings.API_V1_STR}/openapi.json",

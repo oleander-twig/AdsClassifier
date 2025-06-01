@@ -28,6 +28,19 @@ services:
       - caddy_data:/data
       - caddy_config:/config
 
+  s3:
+    restart: unless-stopped
+    container_name: s3
+    image: minio/minio:RELEASE.2022-05-19T18-20-59Z.fips
+    ports:
+      - 9000:80
+      - 9001:9001
+    env_file:
+      - .env
+    volumes:
+      - ./vdata/s3:/data
+    command: server /data --console-address ":9001" --address :80
+
 volumes:
   caddy_data:
   caddy_config:

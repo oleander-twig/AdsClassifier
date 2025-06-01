@@ -18,6 +18,11 @@ class Settings(BaseSettings, extra='ignore'):
     API_V1_STR: str = f"/api/{API_VERSION}"
     WHEATER_URL: str = "https://wttr.in"
 
+
+    S3_ACCESS_KEY_ID: str = "admin"
+    S3_SECRET_ACCESS_KEY: str = "asdf54321"
+    PUBLIC_URL: str = "http://cms-media-service-s3:80"
+
     
     class Config:
         case_sensitive = True
