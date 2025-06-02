@@ -33,7 +33,7 @@ install:
 	cd backend/app && poetry install && cd ../..
 
 run-app:
-	cd backend/app && poetry run uvicorn app.main:app --host 0.0.0.0 --port 8000 && cd ..
+	cd backend/app && python3 app/main.py && cd ..
 
 
 run-dev-build:

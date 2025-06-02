@@ -21,7 +21,7 @@ class Settings(BaseSettings, extra='ignore'):
 
     S3_ACCESS_KEY_ID: str = "admin"
     S3_SECRET_ACCESS_KEY: str = "asdf54321"
-    PUBLIC_URL: str = "http://cms-media-service-s3:80"
+    PUBLIC_URL: str = "http://localhost:9000"
 
     
     class Config:

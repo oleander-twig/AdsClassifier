@@ -21,3 +21,7 @@ class S3Client:
             )
         except Exception as e:
             raise e
+        
+    def download_model(self):
+        self.s3_client.download_file(self._default_bucket_name, "model.pth", "/tmp/model.pth")
+        self.s3_client.download_file(self._default_bucket_name, "vectorizer.bin", "/tmp/vectorizer.bin")

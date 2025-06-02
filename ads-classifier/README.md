@@ -72,3 +72,7 @@ Running `pip install create-fastapi-project@latest` (with no arguments) launches
 By choosing `create-fastapi-project`, you streamline your initial project setup, leverage reliable patterns, and enjoy the convenience of a tool tailored for FastAPI development.
 
 We love ❤️ [FastAPI](https://fastapi.tiangolo.com/) and its ecosystem. You can check out the [create-fastapi-project GitHub repository](https://github.com/allient/create-fastapi-project) - your feedback and contributions are welcome!
+
+### Локальное тестирование 
+1. Поднять сервис 
+2. Совершить запрос из командной строки `curl -v -X POST -d '{"input": "одежда обувь"}' -H 'Content-Type: application/json' http://localhost:8000/api/v1/process`
