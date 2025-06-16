@@ -1,0 +1,21 @@
+version: '3.8'
+
+services:
+  data-loader:
+    build: ./data-loader
+    command: "python3 load.py"
+    ports:
+      - 8080:8080 
+    env_file: ".env"
+
+  db-mysql:
+    container_name: media-service-mysql
+    image: mysql:5.7
+    ports:
+      - 3308:3306
+    env_file:
+      - .env
+    command: ['mysqld', '--character-set-server=utf8mb4', '--collation-server=utf8mb4_unicode_ci']
+    volumes:
+      - ./:/workspace
+
