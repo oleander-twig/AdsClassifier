@@ -6,7 +6,10 @@ services:
     command: "python3 load.py"
     ports:
       - 8080:8080 
-    env_file: ".env"
+    env_file: 
+      - .env
+    volumes:
+      - ./:/workspace
 
   db-mysql:
     container_name: media-service-mysql
@@ -19,3 +22,14 @@ services:
     volumes:
       - ./:/workspace
 
+  media-service-s3:
+    container_name: media-service-s3
+    image: minio/minio:RELEASE.2022-05-19T18-20-59Z.fips
+    ports:
+      - 9000:80
+      - 9001:9001
+    env_file:
+      - .env
+    volumes:
+      - ./:/workspace
+    command: server /data --console-address ":9001" --address :80

@@ -2,6 +2,7 @@ import logging
 import mysql.connector
 from config import create_config, Config
 import csv
+import boto3
 
 logging.basicConfig(level=logging.INFO)
 
@@ -66,8 +67,18 @@ def data_load() -> None:
 
     cfg = create_config()
 
+    s3 = boto3.client(
+        cfg.s3.service_name,
+        aws_access_key_id=cfg.s3.aws_access_key_id,
+        aws_secret_access_key= cfg.s3.aws_secret_access_key,
+        endpoint_url=cfg.s3.public_url
+        )
+
     if cfg.mode:
         create_fake_data(cfg=cfg)
+        # s3.create_bucket(
+        #     ACL='public-read',
+        #     Bucket=cfg.s3.bucket_name)
 
     cnx = mysql.connector.connect(host=cfg.database.host,
                                   user=cfg.database.user,
@@ -84,9 +95,11 @@ def data_load() -> None:
 
     cnx.close()
 
-    # with open('output.csv', mode='w', newline='') as file:
-    #     writer = csv.writer(file)
-    #     writer.writerows(rows)
+    with open('output.csv', mode='w') as file:
+        writer = csv.writer(file)
+        writer.writerows(rows)
+
+    s3.upload_file('output.csv', cfg.s3.bucket_name, 'output.csv')
 
     return 
 
